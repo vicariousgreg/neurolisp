@@ -1,0 +1,344 @@
+CUDA_DEVICES=1 CUDA_HALF=False FAST_KERNELS=False python3 neurolisp/perf_neurolisp.py -ovt suite --mem_size 50000 --bind_size 10000
+args: 
+           t : suite
+     verbose : True
+       debug : False
+     emulate : False
+       check : False
+       ortho : True
+       decay : 1.0
+    mem_size : 50000
+   bind_size : 10000
+    lex_size : 0
+  mem_ctx_lam : 0.25
+  bind_ctx_lam : 0.25
+        dump : False
+        path : 
+
+RUNNING TESTS
+Prog:  
+Args: 
+           t : suite
+     verbose : True
+       debug : False
+     emulate : False
+       check : False
+       ortho : True
+       decay : 1.0
+    mem_size : 50000
+   bind_size : 10000
+    lex_size : 0
+  mem_ctx_lam : 0.25
+  bind_ctx_lam : 0.25
+        dump : False
+        path : 
+
+Layer sizes: 
+         mem : 50000
+        bind : 10000
+         lex : 2048
+       stack : 256
+  data_stack : 256
+
+Contexts sizes: 
+     mem_ctx : 0.25
+    bind_ctx : 0.25
+
+
+Running test 0
+Test:  (progn
+          (print 'executing)
+          (defun f (x)
+              (if x (f (cdr x))))
+          (f '(1 2 3 4 5 6 7 8 9 10))
+          'complete)
+Ref:   executing complete
+Emulated test in 8836 timesteps
+Emulator output:
+executing complete
+Name  N  W
+------------------------------------------------------------
+  bind_ctx      10000   20480000   0.076294   lam = 0.250000
+------------------------------------------------------------
+                 ('lex', 'hetero')  0.076294 1
+
+------------------------------------------------------------
+       lex       2048  110575616   0.411926
+------------------------------------------------------------
+                 ('mem', 'hetero')  0.381470 1
+                  ('op', 'hetero')  0.014832 1
+                   ('lex', 'auto')  0.015625 1
+
+------------------------------------------------------------
+       mem      50000 5628000000  20.965934
+------------------------------------------------------------
+                   ('mem', 'auto')  9.313226 1
+          ('data_stack', 'hetero')  0.047684 1
+                 ('lex', 'hetero')  0.381470 1
+                ('bind', 'hetero')  1.862645 1
+                 ('mem', 'hetero')  9.313226 1
+               ('stack', 'hetero')  0.047684 1
+
+------------------------------------------------------------
+     stack        256     131072   0.000488
+------------------------------------------------------------
+                  ('stack', 'bwd')  0.000244 1
+                  ('stack', 'fwd')  0.000244 1
+
+------------------------------------------------------------
+        gh        524   33806384   0.125939
+------------------------------------------------------------
+                 ('lex', 'hetero')  0.003998 1
+                 ('mem', 'hetero')  0.097603 1
+                ('bind', 'hetero')  0.019521 1
+                  ('op', 'hetero')  0.003795 1
+                  ('gh', 'hetero')  0.001023 1
+
+------------------------------------------------------------
+data_stack        256     131072   0.000488
+------------------------------------------------------------
+             ('data_stack', 'fwd')  0.000244 1
+             ('data_stack', 'bwd')  0.000244 1
+
+------------------------------------------------------------
+        op       1944    8258112   0.030764
+------------------------------------------------------------
+                 ('lex', 'hetero')  0.014832 1
+               ('stack', 'hetero')  0.001854 1
+                  ('op', 'hetero')  0.014078 1
+
+------------------------------------------------------------
+      bind      10000  702560000   2.617240
+------------------------------------------------------------
+                  ('bind', 'auto')  0.372529 1
+                ('bind', 'hetero')  0.372529 1
+                 ('mem', 'hetero')  1.862645 1
+               ('stack', 'hetero')  0.009537 1
+
+------------------------------------------------------------
+   mem_ctx      50000 2602400000   9.694695   lam = 0.250000
+------------------------------------------------------------
+                 ('mem', 'hetero')  9.313226 1
+                 ('lex', 'hetero')  0.381470 1
+
+Total:      125028 9106342256
+Device allocation:
+1:      9106342256     36425369024 (33.9238 GB)
+
+Flashing gates...
+Flashing mappings...
+      bind       bind     hetero            1
+       mem        mem     hetero    mem_ctx 1
+   mem_ctx        mem     hetero            6
+       mem        mem       auto            6
+       lex        mem     hetero            6
+       mem        lex     hetero            6
+  bind_ctx        lex     hetero            6
+   mem_ctx        lex     hetero            6
+       lex        lex       auto            43
+     stack      stack        fwd            64
+     stack      stack        bwd            64
+data_stack data_stack        fwd            64
+data_stack data_stack        bwd            64
+        gh         gh     hetero            106
+        op        lex     hetero            126
+       lex         op     hetero            175
+        op         op     hetero            484
+        gh         op     hetero            486
+Flashing                   ('gh', 'gh', 'hetero')        106
+  --> 0.009962
+Flashing                   ('op', 'op', 'hetero')        484
+  --> 0.363471
+Flashing                  ('op', 'lex', 'hetero')        126
+  --> 0.103722
+Flashing                   ('gh', 'op', 'hetero')        486
+  --> 0.330528
+Flashing                  ('lex', 'op', 'hetero')        175
+  --> 0.131998
+Flashing                   ('lex', 'lex', 'auto')         43
+  --> 0.039093
+Flashing               ('bind', 'bind', 'hetero')          1
+  --> 0.097585
+Flashing             ('mem_ctx', 'mem', 'hetero')          6
+  --> 2.829812
+Flashing                 ('mem', 'mem', 'hetero')          1
+  --> 3.117788
+Flashing                   ('mem', 'mem', 'auto')          6
+  --> 3.912129
+Flashing                 ('lex', 'mem', 'hetero')          6
+  --> 0.252523
+Flashing                 ('mem', 'lex', 'hetero')          6
+  --> 0.157261
+Flashing            ('bind_ctx', 'lex', 'hetero')          6
+  --> 0.040401
+Flashing             ('mem_ctx', 'lex', 'hetero')          6
+  --> 0.156235
+Flashing                ('stack', 'stack', 'fwd')         64
+  --> 0.003212
+Flashing                ('stack', 'stack', 'bwd')         64
+  --> 0.002646
+Flashing      ('data_stack', 'data_stack', 'fwd')         64
+  --> 0.002481
+Flashing      ('data_stack', 'data_stack', 'bwd')         64
+  --> 0.002662
+Running network...
+In:  (
+In:  progn
+In:  (
+In:  print
+In:  '
+In:  executing
+In:  )
+In:  (
+In:  defun
+In:  f
+In:  (
+In:  x
+In:  )
+In:  (
+In:  if
+In:  x
+In:  (
+In:  f
+In:  (
+In:  cdr
+In:  x
+In:  )
+In:  )
+In:  )
+In:  )
+In:  (
+In:  f
+In:  '
+In:  (
+In:  1
+In:  2
+In:  3
+In:  4
+In:  5
+In:  6
+In:  7
+In:  8
+In:  9
+In:  10
+In:  )
+In:  )
+In:  '
+In:  complete
+In:  )
+Out:  (3621, 'executing', 1.0) 444.9120082409936
+Out:  (8822, 'complete', 1.0) 2729.7612007739954
+output:
+(3621, 'executing', 1.0)
+(8822, 'complete', 1.0)
+
+learned:
+             gh              op          hetero   |   online:     0 /     0 |  flashed:   486 /   486 |  activ_count:   2611
+             op              op          hetero   |   online:     0 /     0 |  flashed:   484 /   484 |  activ_count:   2110
+            lex              op          hetero   |   online:     0 /     0 |  flashed:   175 /   175 |  activ_count:    854
+             gh              gh          hetero   |   online:     0 /     0 |  flashed:   106 /   106 |  activ_count:   5742
+             op             lex          hetero   |   online:     0 /     0 |  flashed:    83 /   126 |  activ_count:    500
+          stack           stack             bwd   |   online:     0 /     0 |  flashed:    64 /    64 |  activ_count:    294
+          stack           stack             fwd   |   online:     0 /     0 |  flashed:    64 /    64 |  activ_count:    296
+     data_stack      data_stack             fwd   |   online:     0 /     0 |  flashed:    64 /    64 |  activ_count:     89
+     data_stack      data_stack             bwd   |   online:     0 /     0 |  flashed:    64 /    64 |  activ_count:     89
+            lex             lex            auto   |   online:     0 /     0 |  flashed:    43 /    43 |  activ_count:     70
+       bind_ctx             lex          hetero   |   online:     0 /     0 |  flashed:     6 /     6 |  activ_count:     54
+            lex             mem          hetero   |   online:     0 /     0 |  flashed:     6 /     6 |  activ_count:    568
+            mem             mem            auto   |   online:     0 /     0 |  flashed:     6 /     6 |  activ_count:    358
+            mem             lex          hetero   |   online:     0 /     0 |  flashed:     6 /     6 |  activ_count:     70
+        mem_ctx             mem          hetero   |   online:     0 /     0 |  flashed:     6 /     6 |  activ_count:    225
+        mem_ctx             lex          hetero   |   online:     0 /     0 |  flashed:     6 /     6 |  activ_count:     44
+            mem             mem          hetero   |   online:     0 /     0 |  flashed:     1 /     1 |  activ_count:    326
+           bind            bind          hetero   |   online:     0 /     0 |  flashed:     1 /     1 |  activ_count:     10
+
+Final activity states:
+       bind_ctx :                   _8  1.000000
+            lex :             read_sym  1.000000
+            mem :                  _55  1.000000
+          stack :                    2  1.000000
+             gh :      read_lex_recog?  1.000000
+     data_stack :                    0  1.000000
+             op :             read_sym  1.000000
+           bind :              def_env  1.000000
+        mem_ctx :                  _54  1.000000
+
+Gate history:
+    bind_ctx       stash                         :         22                 0.0000   0.000000635032351552
+     mem_ctx       stash                         :         60                 0.0001   0.000001275933270032
+         lex       stash                         :         82                 0.0002   0.000001966961795782
+        bind       stash                         :        331                 0.0003   0.000000993430324664
+        bind     context    bind_ctx             :         96                 0.0004   0.000004044279800534
+          op       stash                         :        296                 0.0006   0.000001877012412454
+         mem       stash                         :        449                 0.0008   0.000001784931180712
+        bind       noise                         :         11                 0.0037   0.000339987275021320
+         mem     context     mem_ctx             :        848                 0.0058   0.000006861510556982
+    bind_ctx       noise                         :         22                 0.0063   0.000285830274647610
+  data_stack       cycle                         :       8836                 0.0147   0.000001664780663027
+  data_stack    activate  data_stack         fwd :         89                 0.0164   0.000184475652235194
+       stack       cycle                         :       8836                 0.0200   0.000002265347802574
+          gh        bias       false             :        483                 0.0270   0.000055964719928323
+  data_stack    activate  data_stack         bwd :         89                 0.0335   0.000376689106518968
+    bind_ctx       cycle                         :       8836                 0.0411   0.000004647162560253
+          gh    activate        bind      hetero :         52                 0.0427   0.000820773831667164
+         lex       cycle                         :       8836                 0.0477   0.000005399348061068
+       stack    activate       stack         fwd :        296                 0.0528   0.000178280510275776
+          gh       cycle                         :       8836                 0.0543   0.000006147628648646
+          op       cycle                         :       8836                 0.0617   0.000006979623400607
+     mem_ctx       noise                         :         60                 0.0815   0.001358454538664470
+         mem       noise                         :         60                 0.0899   0.001498596734988193
+     mem_ctx       cycle                         :       8836                 0.0912   0.000010326042576980
+        bind       cycle                         :       8836                 0.0933   0.000010559124239525
+          op       learn       stack      hetero :        296                 0.1010   0.000341299260735222
+       stack    activate       stack         bwd :        294                 0.1095   0.000372343546977001
+          go       cycle                         :       8837                 0.1244   0.000014072216126536
+          op    activate       stack      hetero :        294                 0.1430   0.000486463859327277
+        bind    activate       stack      hetero :         97                 0.1526   0.001572681367685346
+          gh    activate         lex      hetero :        431                 0.1719   0.000398888639196010
+          gh       learn        bind      hetero :         52                 0.2283   0.004390838307489713
+          gh       learn         lex      hetero :        431                 0.3737   0.000867100233717750
+         lex    activate         lex        auto :         70                 0.4106   0.005865793532159711
+         mem       learn         lex      hetero :         22                 0.4970   0.022592491777190429
+        bind       learn       stack      hetero :        306                 0.5269   0.001721952645240498
+    bind_ctx       learn         lex      hetero :         22                 0.5410   0.024592362503013152
+         mem       cycle                         :       8836                 0.6556   0.000074197169392616
+         mem       learn  data_stack      hetero :         93                 0.6767   0.007276707239353889
+        bind       learn         mem      hetero :          2                 0.6848   0.342381875496357679
+         mem    activate  data_stack      hetero :        165                 0.8041   0.004873088412127937
+    bind_ctx    activate         lex      hetero :         54                 1.1014   0.020395663240277726
+        bind    activate        bind      hetero :         10                 1.1455   0.114545877801720056
+          gh    activate          gh      hetero :       5742                 1.2339   0.000214892681062404
+          op    activate         lex      hetero :        500                 1.2370   0.002473952163825743
+        bind       learn        bind      hetero :         11                 1.2862   0.116931298901115296
+         mem    activate       stack      hetero :        137                 1.3263   0.009680803425025440
+        bind       learn        bind        auto :         12                 1.4406   0.120053700331482105
+         lex    activate          op      hetero :        854                 1.6979   0.001988187249146284
+          gh    activate          op      hetero :       2611                 1.6990   0.000650703570228898
+         mem       learn       stack      hetero :        170                 2.0739   0.012199188579175183
+     mem_ctx       learn         lex      hetero :         22                 2.1516   0.097798440758858560
+          go    activate          gh      hetero :       8837                 2.7134   0.000307054813828528
+          op    activate          op      hetero :       2110                 2.9077   0.001378061503096885
+        bind    activate        bind        auto :         42                 3.6560   0.087047449425361786
+         mem    activate         lex      hetero :         70                 4.0422   0.057746263056261730
+     mem_ctx    activate         lex      hetero :         44                 4.2866   0.097421951163348494
+         lex       learn         mem      hetero :         60                 5.6677   0.094461951580403061
+        bind    activate         mem      hetero :         11                 5.9621   0.542005719447677836
+         mem       learn        bind      hetero :         12                 6.1082   0.509013961428233075
+         mem    activate        bind      hetero :         32                15.4454   0.482668494718382135
+         lex    activate         mem      hetero :        568                29.1123   0.051254110610437199
+         mem       learn         mem        auto :         60                92.3130   1.538549230844364457
+         mem       learn         mem      hetero :         76               101.1464   1.330873380419737018
+     mem_ctx       learn         mem      hetero :         60               153.5044   2.558407038545313483
+     mem_ctx    activate         mem      hetero :        225               559.9951   2.488867048130422255
+         mem    activate         mem      hetero :        326               815.5945   2.501823710446050342
+         mem    converge                         :        358               903.5554   2.523897851885435362
+
+Executed 8836 timesteps in 2729.773153s
+
+Ran test in 8836 timesteps
+Actual output:
+executing complete
+Output matches? True
+Timesteps match? True
+PASSED
+

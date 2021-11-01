@@ -1,0 +1,36 @@
+(progn
+  (defun test (expr target)
+      (if (not (eq (eval expr) target))
+        (error (list target 'NOT_EQUAL expr))))
+
+  (setq tree1 'a)
+  (setq tree2 '(a b))
+  (setq tree3 '(a (b c)))
+  (setq tree4 '(b d e))
+  (setq tree5 '(a (f g) c (b d e)))
+  (setq nottree1 '(a))
+  (setq nottree2 '(a (b c) (d) e))
+  (setq nottree3 '((a b c) (d e)))
+
+  (defun is-tree? (expr)
+      (or (atom expr)
+          (and (listp expr)
+              (atom (car expr))
+              (cdr expr)
+              (is-forest? (cdr expr)))))
+  (defun is-forest? (expr)
+      (or (not expr)
+          (and (is-tree? (car expr))
+               (is-forest? (cdr expr)))))
+
+  (test '(is-tree? tree1) true)
+  (test '(is-tree? tree2) true)
+  (test '(is-tree? tree3) true)
+  (test '(is-tree? tree4) true)
+  (test '(is-tree? tree5) true)
+  (test '(is-tree? nottree1) false)
+  (test '(is-tree? nottree2) false)
+  (test '(is-tree? nottree3) false)
+
+  'ALL_TESTS_PASSED
+)
