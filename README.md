@@ -1,7 +1,9 @@
 # NeuroLISP
 `neurolisp` includes an implementation of NeuroLISP, a programmable neural network that implements an interpreter for a dialect of the LISP programming language.
 
-Publication: [NeuroLISP: High-level symbolic programming with attractor neural networks](https://doi.org/10.1016/j.neunet.2021.11.009)
+Davis, G.P., Katz, G.E., Gentili, R.J., Reggia, J.A. NeuroLISP: High-level symbolic programming with attractor neural networks. Neural Networks 146, 200-219 (2022).
+[publication](https://doi.org/10.1016/j.neunet.2021.11.009)
+
 
 ## Requirements
 
